@@ -1,0 +1,20 @@
+"Time","/**","/api/admin/orders","/api/auth/login","/api/cart/items","/api/checkout","/api/products","/api/products/search","/api/products/{id}","/api/sellers/{id}/invoices"
+2026-11-12 09:00:30,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s
+2026-11-12 09:00:45,0 req/s,0.109 req/s,0.127 req/s,0.145 req/s,0.109 req/s,0.618 req/s,0.164 req/s,0.655 req/s,0.0909 req/s
+2026-11-12 09:01:00,0 req/s,0.564 req/s,0.582 req/s,0.600 req/s,0.473 req/s,2.84 req/s,0.873 req/s,2.89 req/s,0.600 req/s
+2026-11-12 09:01:15,0 req/s,1.05 req/s,1.07 req/s,1.09 req/s,0.927 req/s,5.02 req/s,1.60 req/s,5.06 req/s,1.07 req/s
+2026-11-12 09:01:30,0 req/s,1.55 req/s,1.55 req/s,1.55 req/s,1.33 req/s,7.24 req/s,2.33 req/s,7.15 req/s,1.53 req/s
+2026-11-12 09:01:45,0 req/s,1.85 req/s,1.87 req/s,1.71 req/s,1.56 req/s,8.40 req/s,2.73 req/s,8.07 req/s,1.75 req/s
+2026-11-12 09:02:00,0 req/s,1.96 req/s,1.91 req/s,1.73 req/s,1.55 req/s,8.91 req/s,2.71 req/s,8.46 req/s,1.87 req/s
+2026-11-12 09:02:15,0 req/s,1.93 req/s,1.87 req/s,1.78 req/s,1.75 req/s,9.16 req/s,2.76 req/s,9.24 req/s,1.80 req/s
+2026-11-12 09:02:30,0 req/s,1.93 req/s,2.06 req/s,1.87 req/s,1.73 req/s,9.24 req/s,2.67 req/s,9.95 req/s,1.87 req/s
+2026-11-12 09:02:45,0 req/s,2.07 req/s,1.91 req/s,1.96 req/s,1.95 req/s,9.46 req/s,2.71 req/s,9.77 req/s,1.91 req/s
+2026-11-12 09:03:00,0 req/s,1.95 req/s,2.07 req/s,1.73 req/s,1.80 req/s,9.44 req/s,2.98 req/s,9.66 req/s,2.00 req/s
+2026-11-12 09:03:15,0 req/s,1.95 req/s,1.93 req/s,1.84 req/s,1.82 req/s,9.71 req/s,2.87 req/s,9.48 req/s,2.04 req/s
+2026-11-12 09:03:30,0 req/s,1.95 req/s,1.91 req/s,1.78 req/s,1.80 req/s,9.86 req/s,3.02 req/s,9.42 req/s,2.07 req/s
+2026-11-12 09:03:45,0 req/s,1.78 req/s,1.76 req/s,1.64 req/s,1.60 req/s,9.21 req/s,2.74 req/s,8.87 req/s,1.89 req/s
+2026-11-12 09:04:00,0 req/s,1.55 req/s,1.42 req/s,1.44 req/s,1.80 req/s,7.36 req/s,2.27 req/s,7.42 req/s,1.55 req/s
+2026-11-12 09:04:15,0 req/s,0.960 req/s,0.840 req/s,0.840 req/s,1.20 req/s,4.20 req/s,1.28 req/s,4.24 req/s,0.840 req/s
+2026-11-12 09:04:30,0 req/s,0.225 req/s,0.263 req/s,0.244 req/s,0.582 req/s,1.09 req/s,0.301 req/s,1.09 req/s,0.207 req/s
+2026-11-12 09:04:45,0 req/s,0.109 req/s,0.109 req/s,0.0909 req/s,0.418 req/s,0.509 req/s,0.127 req/s,0.382 req/s,0.0909 req/s
+2026-11-12 09:05:00,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s

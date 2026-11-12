@@ -1,0 +1,16 @@
+"Time","/**","/api/admin/orders","/api/auth/login","/api/cart/items","/api/checkout","/api/products","/api/products/search","/api/products/{id}","/api/sellers/{id}/invoices"
+2026-11-12 09:08:45,0 req/s,0.591 req/s,0.629 req/s,0.553 req/s,0.991 req/s,2.92 req/s,0.724 req/s,2.71 req/s,0.496 req/s
+2026-11-12 09:09:00,0 req/s,1.06 req/s,1.13 req/s,1.06 req/s,1.44 req/s,5.29 req/s,1.46 req/s,5.13 req/s,1.06 req/s
+2026-11-12 09:09:15,0 req/s,1.35 req/s,1.36 req/s,1.38 req/s,1.29 req/s,6.78 req/s,2.06 req/s,6.84 req/s,1.36 req/s
+2026-11-12 09:09:30,0 req/s,1.86 req/s,1.86 req/s,1.87 req/s,1.75 req/s,9.06 req/s,2.78 req/s,9.08 req/s,1.84 req/s
+2026-11-12 09:09:45,0 req/s,1.84 req/s,1.86 req/s,1.84 req/s,1.75 req/s,8.88 req/s,2.82 req/s,8.88 req/s,1.86 req/s
+2026-11-12 09:10:00,0 req/s,1.87 req/s,1.78 req/s,1.76 req/s,1.64 req/s,8.51 req/s,2.80 req/s,8.48 req/s,1.76 req/s
+2026-11-12 09:10:15,0 req/s,1.63 req/s,1.59 req/s,1.52 req/s,1.36 req/s,7.45 req/s,2.44 req/s,7.59 req/s,1.59 req/s
+2026-11-12 09:10:30,0 req/s,1.16 req/s,1.12 req/s,1.05 req/s,0.934 req/s,5.25 req/s,1.72 req/s,5.44 req/s,1.12 req/s
+2026-11-12 09:10:45,0 req/s,0.747 req/s,0.727 req/s,0.626 req/s,0.545 req/s,3.27 req/s,1.09 req/s,3.45 req/s,0.727 req/s
+2026-11-12 09:11:00,0 req/s,0.215 req/s,0.307 req/s,0.245 req/s,0.215 req/s,1.32 req/s,0.399 req/s,1.47 req/s,0.276 req/s
+2026-11-12 09:12:00,0 req/s,0.256 req/s,0.233 req/s,0.163 req/s,0.955 req/s,1.21 req/s,0.559 req/s,1.19 req/s,0.373 req/s
+2026-11-12 09:12:15,0 req/s,0.220 req/s,0.200 req/s,0.140 req/s,0.818 req/s,1.04 req/s,0.479 req/s,1.02 req/s,0.319 req/s
+2026-11-12 09:12:30,0 req/s,0.207 req/s,0.189 req/s,0.132 req/s,0.773 req/s,0.981 req/s,0.453 req/s,0.962 req/s,0.302 req/s
+2026-11-12 09:12:45,0 req/s,0.200 req/s,0.146 req/s,0.0909 req/s,0.582 req/s,0.837 req/s,0.418 req/s,0.709 req/s,0.291 req/s
+2026-11-12 09:13:00,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s,0 req/s
