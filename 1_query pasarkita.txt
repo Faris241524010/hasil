@@ -1,0 +1,189 @@
+Contoh query untuk mendapatkan lima query dengan total waktu eksekusi tertinggi:
+sql
+SELECT
+    query,
+    calls,
+    ROUND(total_exec_time::numeric, 2) AS total_ms,
+    ROUND(mean_exec_time::numeric, 2) AS mean_ms
+FROM pg_stat_statements
+ORDER BY total_exec_time DESC
+LIMIT 5; 
+
+                                                                                 query                                                                                  | calls | total_ms  | mean_ms 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+-----------+---------
+ select count(p1_0.id) from product p1_0 where lower(p1_0.name) like lower(($3||$1||$4)) escape $5 or lower(p1_0.sku) like lower(($6||$2||$7)) escape $8                |  1508 | 906845.23 |  601.36
+ select count(o1_0.id) from orders o1_0                                                                                                                                 |  1023 | 762228.61 |  745.09
+ select c1_0.id,c1_0.credit_limit,c1_0.email,c1_0.name,c1_0.password_hash from customer c1_0 where upper(c1_0.email)=upper($1)                                          |  1021 | 694356.14 |  680.07
+ select i1_0.id,i1_0.amount,i1_0.issued_at,i1_0.order_id,i1_0.seller_id from invoice i1_0 where i1_0.seller_id=$1 order by i1_0.issued_at desc fetch first $2 rows only |  1005 | 428208.94 |  426.08
+ select count(i1_0.id) from invoice i1_0 where i1_0.seller_id=$1                                                                                                        |   937 | 321552.21 |  343.17
+(5 rows)
+
+###
+A. Query pencarian produk
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT COUNT(p.id)
+FROM product p
+WHERE
+    LOWER(p.name) LIKE LOWER('%keyword%')
+    OR LOWER(p.sku) LIKE LOWER('%keyword%');
+                                                  QUERY PLAN                                                   
+---------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=1755.03..1755.04 rows=1 width=8) (actual time=72.937..72.938 rows=1 loops=1)
+   Buffers: shared hit=755
+   ->  Seq Scan on product p  (cost=0.00..1755.00 rows=10 width=8) (actual time=72.933..72.934 rows=0 loops=1)
+         Filter: ((lower((name)::text) ~~ '%keyword%'::text) OR (lower((sku)::text) ~~ '%keyword%'::text))
+         Rows Removed by Filter: 50000
+         Buffers: shared hit=755
+ Planning:
+   Buffers: shared hit=38 read=4
+ Planning Time: 0.860 ms
+ Execution Time: 73.048 ms
+(10 rows)
+
+###
+B. Query menghitung order
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT COUNT(o.id)
+FROM orders o;
+
+                                                                 QUERY PLAN                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=23888.55..23888.56 rows=1 width=8) (actual time=155.113..156.954 rows=1 loops=1)
+   Buffers: shared hit=308 read=17372 dirtied=8
+   ->  Gather  (cost=23888.33..23888.54 rows=2 width=8) (actual time=153.036..156.946 rows=3 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=308 read=17372 dirtied=8
+         ->  Partial Aggregate  (cost=22888.33..22888.34 rows=1 width=8) (actual time=146.573..146.574 rows=1 loops=3)
+               Buffers: shared hit=308 read=17372 dirtied=8
+               ->  Parallel Seq Scan on orders o  (cost=0.00..21846.67 rows=416667 width=8) (actual time=0.050..113.371 rows=333643 loops=3)
+                     Buffers: shared hit=308 read=17372 dirtied=8
+ Planning:
+   Buffers: shared hit=67 read=5
+ Planning Time: 2.319 ms
+ Execution Time: 157.060 ms
+(14 rows)
+
+###
+C. Query mencari customer
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    c.id,
+    c.credit_limit,
+    c.email,
+    c.name,
+    c.password_hash
+FROM customer c
+WHERE UPPER(c.email) = UPPER('contoh@email.com');
+
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6196.00 rows=1000 width=115) (actual time=99.297..104.210 rows=0 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=3846
+   ->  Parallel Seq Scan on customer c  (cost=0.00..5096.00 rows=417 width=115) (actual time=94.340..94.340 rows=0 loops=3)
+         Filter: (upper((email)::text) = 'CONTOH@EMAIL.COM'::text)
+         Rows Removed by Filter: 66667
+         Buffers: shared hit=3846
+ Planning:
+   Buffers: shared hit=47 read=4
+ Planning Time: 1.381 ms
+ Execution Time: 104.245 ms
+(12 rows)
+
+###
+D. Query mengambil invoice seller
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    i.id,
+    i.amount,
+    i.issued_at,
+    i.order_id,
+    i.seller_id
+FROM invoice i
+WHERE i.seller_id = 1
+ORDER BY i.issued_at DESC
+FETCH FIRST 20 ROWS ONLY;
+                                                                         QUERY PLAN                                                                         
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=23967.59..23969.93 rows=20 width=38) (actual time=264.186..270.015 rows=20 loops=1)
+   Buffers: shared hit=3707 read=14152 dirtied=3
+   ->  Gather Merge  (cost=23967.59..42471.28 rows=158592 width=38) (actual time=264.184..270.010 rows=20 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=3707 read=14152 dirtied=3
+         ->  Sort  (cost=22967.57..23165.81 rows=79296 width=38) (actual time=258.624..258.626 rows=17 loops=3)
+               Sort Key: issued_at DESC
+               Sort Method: top-N heapsort  Memory: 27kB
+               Buffers: shared hit=3707 read=14152 dirtied=3
+               Worker 0:  Sort Method: top-N heapsort  Memory: 27kB
+               Worker 1:  Sort Method: top-N heapsort  Memory: 27kB
+               ->  Parallel Bitmap Heap Scan on invoice i  (cost=2179.33..20857.53 rows=79296 width=38) (actual time=12.378..234.325 rows=64834 loops=3)
+                     Recheck Cond: (seller_id = 1)
+                     Heap Blocks: exact=5528
+                     Buffers: shared hit=3691 read=14152 dirtied=3
+                     ->  Bitmap Index Scan on idx_invoice_seller  (cost=0.00..2131.75 rows=190310 width=0) (actual time=13.679..13.680 rows=194502 loops=1)
+                           Index Cond: (seller_id = 1)
+                           Buffers: shared hit=6 read=152
+ Planning:
+   Buffers: shared hit=64 read=4
+ Planning Time: 1.061 ms
+ Execution Time: 270.206 ms
+(23 rows)
+
+###
+E. Query menghitung invoice seller
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT COUNT(i.id)
+FROM invoice i
+WHERE i.seller_id = 1;
+
+                                                                         QUERY PLAN                                                                         
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=22055.99..22056.00 rows=1 width=8) (actual time=298.279..302.867 rows=1 loops=1)
+   Buffers: shared hit=773 read=17067
+   ->  Gather  (cost=22055.77..22055.98 rows=2 width=8) (actual time=298.272..302.860 rows=3 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=773 read=17067
+         ->  Partial Aggregate  (cost=21055.77..21055.78 rows=1 width=8) (actual time=290.198..290.199 rows=1 loops=3)
+               Buffers: shared hit=773 read=17067
+               ->  Parallel Bitmap Heap Scan on invoice i  (cost=2179.33..20857.53 rows=79296 width=8) (actual time=9.325..280.481 rows=64834 loops=3)
+                     Recheck Cond: (seller_id = 1)
+                     Heap Blocks: exact=5635
+                     Buffers: shared hit=773 read=17067
+                     ->  Bitmap Index Scan on idx_invoice_seller  (cost=0.00..2131.75 rows=190310 width=0) (actual time=13.404..13.404 rows=194502 loops=1)
+                           Index Cond: (seller_id = 1)
+                           Buffers: shared hit=3 read=152
+ Planning Time: 0.111 ms
+ Execution Time: 302.924 ms
+(17 rows)
+
+###
+Untuk memeriksa indeks, jalankan:
+SELECT
+    tablename,
+    indexname,
+    indexdef
+FROM pg_indexes
+WHERE schemaname = 'public'
+  AND tablename IN (
+      'product',
+      'orders',
+      'customer',
+      'invoice'
+  )
+ORDER BY tablename, indexname;
+ tablename |      indexname      |                                  indexdef                                   
+-----------+---------------------+-----------------------------------------------------------------------------
+ customer  | customer_pkey       | CREATE UNIQUE INDEX customer_pkey ON public.customer USING btree (id)
+ customer  | idx_customer_email  | CREATE INDEX idx_customer_email ON public.customer USING btree (email)
+ invoice   | idx_invoice_seller  | CREATE INDEX idx_invoice_seller ON public.invoice USING btree (seller_id)
+ invoice   | invoice_pkey        | CREATE UNIQUE INDEX invoice_pkey ON public.invoice USING btree (id)
+ orders    | idx_orders_created  | CREATE INDEX idx_orders_created ON public.orders USING btree (created_at)
+ orders    | idx_orders_customer | CREATE INDEX idx_orders_customer ON public.orders USING btree (customer_id)
+ orders    | idx_orders_status   | CREATE INDEX idx_orders_status ON public.orders USING btree (status)
+ orders    | orders_pkey         | CREATE UNIQUE INDEX orders_pkey ON public.orders USING btree (id)
+ product   | product_pkey        | CREATE UNIQUE INDEX product_pkey ON public.product USING btree (id)
+(9 rows)
