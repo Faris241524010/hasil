@@ -1,0 +1,13 @@
+SELECT
+    SUM(calls) AS total_calls,
+    ROUND(SUM(total_exec_time)::numeric, 2) AS total_exec_ms,
+    SUM(rows) AS total_rows,
+    SUM(shared_blks_hit) AS total_buffer_hits,
+    SUM(shared_blks_read) AS total_disk_reads
+FROM pg_stat_statements
+WHERE query ILIKE '%product%';
+
+ total_calls | total_exec_ms | total_rows | total_buffer_hits | total_disk_reads 
+-------------+---------------+------------+-------------------+------------------
+        7202 |      20537.38 |      75621 |           2747296 |                0
+(1 row)

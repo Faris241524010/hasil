@@ -1,0 +1,18 @@
+pasarkita=# SELECT
+    query,
+    calls,
+    round(total_exec_time::numeric, 2) AS total_ms,
+    round(mean_exec_time::numeric, 3) AS mean_ms,
+    rows,
+    shared_blks_hit,
+    shared_blks_read
+FROM pg_stat_statements
+WHERE query ILIKE '%product%'
+ORDER BY total_exec_time DESC
+LIMIT 20;
+
+                                                                 query                                                                  | calls | total_ms | mean_ms | rows  | shared_blks_hit | shared_blks_read 
+----------------------------------------------------------------------------------------------------------------------------------------+-------+----------+---------+-------+-----------------+------------------
+ select count(p1_0.id) from product p1_0                                                                                                |  3601 | 20082.72 |   5.577 |  3601 |         2718755 |                0
+ select p1_0.id,p1_0.description,p1_0.name,p1_0.price,p1_0.seller_id,p1_0.sku from product p1_0 offset $1 rows fetch first $2 rows only |  3601 |   454.66 |   0.126 | 72020 |           28541 |                0
+(2 rows)

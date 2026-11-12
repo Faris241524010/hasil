@@ -1,0 +1,47 @@
+PS C:\dev\WebDev_PasarKita> k6 run -e RATE=10 -e DURATION=3m labs/latihan/catalog-4825.k6.js
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: labs/latihan/catalog-4825.k6.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 200 max VUs, 3m30s max duration (incl. graceful stop):
+              * catalog: 10.00 iterations/s for 3m0s (maxVUs: 20-200, gracefulStop: 30s)
+
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 1801    10.00343/s
+    checks_succeeded...: 100.00% 1801 out of 1801
+    checks_failed......: 0.00%   0 out of 1801
+
+    ✓ catalog status 200
+
+    HTTP
+    http_req_duration..............: avg=56.91ms med=37.7ms p(95)=105.12ms p(99)=571.69ms max=1.66s
+      { expected_response:true }...: avg=56.91ms med=37.7ms p(95)=105.12ms p(99)=571.69ms max=1.66s
+    http_req_failed................: 0.00%  0 out of 1801
+    http_reqs......................: 1801   10.00343/s
+
+    EXECUTION
+    iteration_duration.............: avg=57.17ms med=37.8ms p(95)=105.57ms p(99)=571.69ms max=1.66s
+    iterations.....................: 1801   10.00343/s
+    vus............................: 0      min=0         max=17
+    vus_max........................: 20     min=20        max=20
+
+    NETWORK
+    data_received..................: 6.6 MB 37 kB/s
+    data_sent......................: 176 kB 978 B/s
+
+
+
+
+running (3m00.0s), 000/020 VUs, 1801 complete and 0 interrupted iterations
+catalog ✓ [======================================] 000/020 VUs  3m0s  10.00 iters/s
